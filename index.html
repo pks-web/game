@@ -171,7 +171,7 @@ var POP = {
         // browsers won't scroll if there is not
         // a small delay
         window.setTimeout(function() {
-                window.scrollTo(0,1);
+                window.scrollTo(0,0);
         }, 1);
     },
 
@@ -278,7 +278,7 @@ var POP = {
         }
 
         // display scores
-        POP.Draw.text('Hits: ' + POP.score.hit, 20, 30, 14, '#fff');
+        POP.Draw.text('Hit: ' + POP.score.hit, 20, 30, 14, '#fff');
         POP.Draw.text('Escaped: ' + POP.score.escaped, 20, 50, 14, '#fff');
         POP.Draw.text('Accuracy: ' + POP.score.accuracy + '%', 20, 70, 14, '#fff');
 
