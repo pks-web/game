@@ -36,7 +36,7 @@ window.requestAnimFrame = (function(){
           window.oRequestAnimationFrame      || 
           window.msRequestAnimationFrame     || 
           function( callback ){
-            window.setTimeout(callback, 1000 / 70);
+            window.setTimeout(callback, 1000 / 60);
           };
 })();
 
