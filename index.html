@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <html lang="en">
 <head>
-<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1">
+<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1",
     user-scalable=no,maximum-scale=1, user-scalable=0" />
 <meta name="apple-mobile-web-app-capable" content="yes" />
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
@@ -15,16 +15,15 @@ body {
   background-size: cover;
 }
 
-canvas { display: block; margin:0 auto; background: #ffffff; }
+canvas { display: block; margin:0 auto; width:auto;height:auto; background: #ffffff; }
 </style>
 
 
 
 </head>
 <body>
-<hr>
-    <WELCOME!>
-<hr>
+
+<embed src="melodyloops-preview-hard-gain-10m30s.mp3" autostart="true" loop="false" width="2" height="0">
 <canvas></canvas>
 <script> 
 
@@ -46,12 +45,12 @@ var POP = {
 
     // set up some inital values
     WIDTH: 200, 
-    HEIGHT:  410, 
+    
+    HEIGHT: 480, 
     scale:  1,
-    content="width=device-width,                                                                                                                                  
     // the position of the canvas
     // in relation to the screen
-    offset: {top: 0, left: 0},
+    offset: {top: 10, left: 10},
     // store all bubble, touches, particles etc
     entities: [],
     // the amount of game ticks until
@@ -67,6 +66,7 @@ var POP = {
     // we'll set the rest of these
     // in the init function
     RATIO:  null,
+    size: 500,
     currentWidth:  null,
     currentHeight:  null,
     canvas: null,
@@ -286,9 +286,9 @@ var POP = {
         }
 
         // display scores
-        POP.Draw.text('Hits: ' + POP.score.hit, 20, 30, 14, '#fff');
-        POP.Draw.text('Escaped: ' + POP.score.escaped, 20, 50, 14, '#fff');
-        POP.Draw.text('Accuracy: ' + POP.score.accuracy + '%', 20, 70, 14, '#fff');
+        POP.Draw.text('Hits: ' + POP.score.hit, 10, 30, 14, '#fff');
+        POP.Draw.text('Escaped: ' + POP.score.escaped, 10, 50, 14, '#fff');
+        POP.Draw.text('Accuracy: ' + POP.score.accuracy + '%', 10, 70, 14, '#fff');
 
     },
 
@@ -493,7 +493,8 @@ window.addEventListener('load', POP.init, false);
 window.addEventListener('resize', POP.resize, false);
 
 </script>
-<h2>PKS~GAMES<h2>
+
+<u><h4>PKS^GAMES<h4></u>
 
 </body>
 </html>
