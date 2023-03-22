@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1" user-scalable="0&quot;">
+  <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1" user-scalable="0">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <style type="text/css">
@@ -44,6 +44,7 @@
       // we'll set the rest of these
       // in the init function
       RATIO:  null,
+      size: 500,
       currentWidth:  null,
       currentHeight:  null,
       canvas: null,
@@ -84,10 +85,10 @@
               y: -40, // y coord of first circle
               r: 50, // circle radius
               time: 0, // we'll use this in calculating the sine wave
-            offset: 0 // this will be the sine wave offset
-        }; 
-        // calculate how many circles we need to 
-        // cover the screen width
+              offset: 0 // this will be the sine wave offset
+          }; 
+          // calculate how many circles we need to 
+          // cover the screen width
         POP.wave.total = Math.ceil(POP.WIDTH / POP.wave.r) + 1;
 
         // listen for clicks
