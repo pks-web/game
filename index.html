@@ -7,7 +7,6 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
 
 <style type="text/css">
-body { margin: 0; padding: 0; background: #282727;}
 
 body {
   background-image: url('IMG-20230321-WA0002.jpg ');
@@ -16,17 +15,16 @@ body {
   background-size: cover;
 }
 
-canvas { display: block; margin: 500 auto; background: #ffffff;; }
+canvas { display: block; margin:0 auto; background: #ffffff; }
 </style>
+
+
 
 </head>
 <body>
 
-<hr>
-<br>
 <embed src="melodyloops-preview-hard-gain-10m30s.mp3" autostart="true" loop="false" width="2" height="0">
 <canvas></canvas>
-<center>
 <script> 
 
 // http://paulirish.com/2011/requestanimationframe-for-smart-animating
@@ -46,8 +44,8 @@ window.requestAnimFrame = (function(){
 var POP = {
 
     // set up some inital values
-    WIDTH: 290, 
-    HEIGHT:  410, 
+    WIDTH: 295, 
+    HEIGHT:  435, 
     scale:  1,
     // the position of the canvas
     // in relation to the screen
@@ -56,7 +54,7 @@ var POP = {
     entities: [],
     // the amount of game ticks until
     // we spawn a bubble
-    nextBubble: 9,
+    nextBubble: 10,
     // for tracking player's progress
     score: {
         taps: 0,
@@ -179,7 +177,7 @@ var POP = {
         // browsers won't scroll if there is not
         // a small delay
         window.setTimeout(function() {
-                window.scrollTo(0,0);
+                window.scrollTo(0,1);
         }, 1);
     },
 
@@ -286,7 +284,7 @@ var POP = {
         }
 
         // display scores
-        POP.Draw.text('Hit: ' + POP.score.hit, 20, 30, 14, '#fff');
+        POP.Draw.text('Hits: ' + POP.score.hit, 20, 30, 14, '#fff');
         POP.Draw.text('Escaped: ' + POP.score.escaped, 20, 50, 14, '#fff');
         POP.Draw.text('Accuracy: ' + POP.score.accuracy + '%', 20, 70, 14, '#fff');
 
@@ -493,8 +491,7 @@ window.addEventListener('load', POP.init, false);
 window.addEventListener('resize', POP.resize, false);
 
 </script>
-<hr> 
-<big><i><h2>PKS£GAMES</h2></i></big>
+
 
 </body>
 </html>
