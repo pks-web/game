@@ -1,65 +1,82 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1" user-scalable="0">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <style type="text/css">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <style type="text/css">
+      body {
+        background-image: url('bg.png');
+        background-repeat: repeat;
+        background-attachment: fixed;
+        background-size: cover;
+      }
 
-  body {
-    background-image: url('bg.png');
-    background-repeat: repeat;
-    background-attachment: fixed;
-    background-size: cover;
-  }
+      canvas {
+        display: block;
+        margin: 0 auto;
+        width: auto;
+        height: auto;
+        background: #ffffff;
+      }
+    </style>
+  </head>
+  <body>
+    <embed src="melodyloops-preview-hard-gain-10m30s.mp3" autostart="true" loop="false" width="2" height="0">
+    <canvas></canvas>
+    <script>
+      // http://paulirish.com/2011/requestanimationframe-for-smart-animating
+      // shim layer with setTimeout fallback
+      window.requestAnimFrame = (function() {
+        return window.requestAnimationFrame ||
+          window.webkitRequestAnimationFrame ||
+          window.mozRequestAnimationFrame ||
+          window.oRequestAnimationFrame ||
+          window.msRequestAnimationFrame ||
+          function(callback) {
+            window.setTimeout(callback, 1000 / 60);
+          };
+      })();
 
-  canvas { display: block; margin: 0 auto; background: #ffffff; }
-  </style>
-  <title></title>
-</head>
-<body>
-  <hr>
-  <embed src="melodyloops-preview-hard-gain-10m30s.mp3" autostart="true" loop="false" width="1" height="0">
-  <canvas></canvas>
-  <script>
-    // namespace our game
-    var POP = {
-
-      // set up some inital values
-      WIDTH: 210, 
-      HEIGHT: 450, 
-      scale:  1,
-      // store all bubble, touches, particles etc
-      entities: [],
-      // the amount of game ticks until
-      // we spawn a bubble
-      nextBubble: 9,
-      // for tracking player's progress
-      score: {
+      // namespace our game
+      var POP = {
+        // set up some inital values
+        WIDTH: 200,
+        HEIGHT: 480,
+        scale: 1,
+        // the position of the canvas
+        // in relation to the screen
+        offset: { top: 10, left: 10 },
+        // store all bubble, touches, particles etc
+        entities: [],
+        // the amount of game ticks until
+        // we spawn a bubble
+        nextBubble: 9,
+        // for tracking player's progress
+        score: {
           taps: 0,
           hit: 0,
           escaped: 0,
           accuracy: 0
-      },
-      // we'll set the rest of these
-      // in the init function
-      RATIO:  null,
-      size: 500,
-      currentWidth:  null,
-      currentHeight:  null,
-      canvas: null,
-      ctx:  null,
-      ua:  null,
-      android: null,
-      ios:  null,
+        },
+        // we'll set the rest of these
+        // in the init function
+        RATIO: null,
+        size: 500,
+        currentWidth: null,
+        currentHeight: null,
+        canvas: null,
+        ctx: null,
+        ua: null,
+        android: null,
+        ios: null,
 
-      init: function() {
-     
+        init: function() {
           // the proportion of width to height
           POP.RATIO = POP.WIDTH / POP.HEIGHT;
           // these will change when the screen is resize
-          POP.currentWidth = window.innerWidth;
-          POP.currentHeight = window.innerHeight;
+          POP.currentWidth = POP.WIDTH;
+          POP.currentHeight = POP.HEIGHT;
           // this is our canvas element
           POP.canvas = document.getElementsByTagName('canvas')[0];
           // it's important to set this
@@ -67,7 +84,7 @@
           // default to 320x200
           POP.canvas.width = POP.WIDTH;
           POP.canvas.height = POP.HEIGHT;
-          // the canvas context allows us to 
+          // the canvas context allows us to
           // interact with the canvas api
           POP.ctx = POP.canvas.getContext('2d');
           // we need to sniff out android & ios
@@ -75,20 +92,20 @@
           // our resize function
           POP.ua = navigator.userAgent.toLowerCase();
           POP.android = POP.ua.indexOf('android') > -1 ? true : false;
-          POP.ios = ( POP.ua.indexOf('iphone') > -1 || POP.ua.indexOf('ipad') > -1  ) ? true : false;
+          POP.ios = (POP.ua.indexOf('iphone') > -1 || POP.ua.indexOf('ipad') > -1) ? true : false;
 
           // set up our wave effect
-          // basically, a series of overlapping circles
-          // across the top of screen
-          POP.wave = {
-              x: -25, // x coord of first circle
-              y: -40, // y coord of first circle
-              r: 50, // circle radius
-              time: 0, // we'll use this in calculating the sine wave
-              offset: 0 // this will be the sine wave offset
-          }; 
-          // calculate how many circles we need to 
-          // cover the screen width
+        // basically, a series of overlapping circles
+        // across the top of screen
+        POP.wave = {
+            x: -25, // x coord of first circle
+            y: -40, // y coord of first circle
+            r: 50, // circle radius
+            time: 0, // we'll use this in calculating the sine wave
+            offset: 0 // this will be the sine wave offset
+        }; 
+        // calculate how many circles we need to 
+        // cover the screen width
         POP.wave.total = Math.ceil(POP.WIDTH / POP.wave.r) + 1;
 
         // listen for clicks
@@ -167,7 +184,7 @@
         var i,
             checkCollision = false; // we only need to check for a collision
                                 // if the user tapped on this game tick
-
+ 
 
         // decrease our nextBubble counter
         POP.nextBubble -= 1;
@@ -284,10 +301,10 @@
     }
 
 
-  };
+};
 
-  // checks if two entties are touching
-  POP.collides = function(a, b) {
+// checks if two entties are touching
+POP.collides = function(a, b) {
 
         var distance_squared = ( ((a.x - b.x) * (a.x - b.x)) + 
                                 ((a.y - b.y) * (a.y - b.y)));
@@ -299,12 +316,12 @@
         } else {
             return false;
         }
-  };
+};
 
 
-  // abstracts various canvas operations into
-  // standalone functions
-  POP.Draw = {
+// abstracts various canvas operations into
+// standalone functions
+POP.Draw = {
 
     clear: function() {
         POP.ctx.clearRect(0, 0, POP.WIDTH, POP.HEIGHT);
@@ -331,11 +348,11 @@
         POP.ctx.fillText(string, x, y);
     }
 
-  };
+};
 
 
 
-  POP.Input = {
+POP.Input = {
 
     x: 0,
     y: 0,
@@ -348,9 +365,9 @@
 
     }
 
-  };
+};
 
-  POP.Touch = function(x, y) {
+POP.Touch = function(x, y) {
 
     this.type = 'touch';    // we'll need this later
     this.x = x;             // the x coordinate
@@ -372,14 +389,14 @@
         POP.Draw.circle(this.x, this.y, this.r, 'rgba(600,0,0,'+this.opacity+')');
     };
 
-  };
+};
 
-  POP.Bubble = function() {
+POP.Bubble = function() {
 
     this.type = 'bubble';
     this.r = (Math.random() * 20) + 10;
     this.speed = (Math.random() * 3) + 1;
-
+ 
     this.x = (Math.random() * (POP.WIDTH) - this.r);
     this.y = POP.HEIGHT + (Math.random() * 100) + 100;
 
@@ -415,9 +432,9 @@
         POP.Draw.circle(this.x, this.y, this.r, 'rgba(200,200,150,1)');
     };
 
-  };
+};
 
-  POP.Particle = function(x, y,r, col) {
+POP.Particle = function(x, y,r, col) {
 
     this.x = x;
     this.y = y;
@@ -465,13 +482,14 @@
         POP.Draw.circle(this.x, this.y, this.r, this.col);
     };
 
-  };
+};
 
-  window.addEventListener('load', POP.init, false);
-  window.addEventListener('resize', POP.resize, false);
+window.addEventListener('load', POP.init, false);
+window.addEventListener('resize', POP.resize, false);
 
-  </script>
-  <hr>
-  <h4><u>PKS^GAMES</u></h4>
+</script>
+
+<u><h4>PKS^GAMES<h4></u>
+
 </body>
 </html>
