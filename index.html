@@ -7,14 +7,13 @@
   <style type="text/css">
 
   body {
-  background-image: url('bg.png');
-  background-repeat: repeat;
-  background-attachment: fixed;
-  background-size: cover;
-  background-margin:200;
+    background-image: url('bg.png');
+    background-repeat: repeat;
+    background-attachment: fixed;
+    background-size: cover;
   }
 
-  canvas { display: block; margin:0 auto; background: #ffffff; }
+  canvas { display: block; margin: 0 auto; background: #ffffff; }
   </style>
   <title></title>
 </head>
@@ -23,88 +22,69 @@
   <embed src="melodyloops-preview-hard-gain-10m30s.mp3" autostart="true" loop="false" width="1" height="0">
   <canvas></canvas>
   <script>
+    // namespace our game
+    var POP = {
 
+      // set up some inital values
+      WIDTH: 210, 
+      HEIGHT: 450, 
+      scale:  1,
+      // store all bubble, touches, particles etc
+      entities: [],
+      // the amount of game ticks until
+      // we spawn a bubble
+      nextBubble: 9,
+      // for tracking player's progress
+      score: {
+          taps: 0,
+          hit: 0,
+          escaped: 0,
+          accuracy: 0
+      },
+      // we'll set the rest of these
+      // in the init function
+      RATIO:  null,
+      size: 500,
+      currentWidth:  null,
+      currentHeight:  null,
+      canvas: null,
+      ctx:  null,
+      ua:  null,
+      android: null,
+      ios:  null,
 
-  // http://paulirish.com/2011/requestanimationframe-for-smart-animating
-  // shim layer with setTimeout fallback
-  window.requestAnimFrame = (function(){
-  return  window.requestAnimationFrame       || 
-          window.webkitRequestAnimationFrame || 
-          window.mozRequestAnimationFrame    || 
-          window.oRequestAnimationFrame      || 
-          window.msRequestAnimationFrame     || 
-          function( callback ){
-            window.setTimeout(callback, 1000 / 40);
-          };
-  })();
+      init: function() {
+     
+          // the proportion of width to height
+          POP.RATIO = POP.WIDTH / POP.HEIGHT;
+          // these will change when the screen is resize
+          POP.currentWidth = window.innerWidth;
+          POP.currentHeight = window.innerHeight;
+          // this is our canvas element
+          POP.canvas = document.getElementsByTagName('canvas')[0];
+          // it's important to set this
+          // otherwise the browser will
+          // default to 320x200
+          POP.canvas.width = POP.WIDTH;
+          POP.canvas.height = POP.HEIGHT;
+          // the canvas context allows us to 
+          // interact with the canvas api
+          POP.ctx = POP.canvas.getContext('2d');
+          // we need to sniff out android & ios
+          // so we can hide the address bar in
+          // our resize function
+          POP.ua = navigator.userAgent.toLowerCase();
+          POP.android = POP.ua.indexOf('android') > -1 ? true : false;
+          POP.ios = ( POP.ua.indexOf('iphone') > -1 || POP.ua.indexOf('ipad') > -1  ) ? true : false;
 
-  // namespace our game
-  var POP = {
-
-    // set up some inital values
-    WIDTH: 210, 
-    
-    HEIGHT: 450, 
-    scale:  1,
-    // the position of the canvas
-    // in relation to the screen
-    offset: {top: 10, left: 10},
-    // store all bubble, touches, particles etc
-    entities: [],
-    // the amount of game ticks until
-    // we spawn a bubble
-    nextBubble: 9,
-    // for tracking player's progress
-    score: {
-        taps: 0,
-        hit: 0,
-        escaped: 0,
-        accuracy: 0
-    },
-    // we'll set the rest of these
-    // in the init function
-    RATIO:  null,
-    size: 500,
-    currentWidth:  null,
-    currentHeight:  null,
-    canvas: null,
-    ctx:  null,
-    ua:  null,
-    android: null,
-    ios:  null,
-
-    init: function() {
-   
-        // the proportion of width to height
-        POP.RATIO = POP.WIDTH / POP.HEIGHT;
-        // these will change when the screen is resize
-        POP.currentWidth = POP.WIDTH;
-        POP.currentHeight = POP.HEIGHT;
-        // this is our canvas element
-        POP.canvas = document.getElementsByTagName('canvas')[0];
-        // it's important to set this
-        // otherwise the browser will
-        // default to 320x200
-        POP.canvas.width = POP.WIDTH;
-        POP.canvas.height = POP.HEIGHT;
-        // the canvas context allows us to 
-        // interact with the canvas api
-        POP.ctx = POP.canvas.getContext('2d');
-        // we need to sniff out android & ios
-        // so we can hide the address bar in
-        // our resize function
-        POP.ua = navigator.userAgent.toLowerCase();
-        POP.android = POP.ua.indexOf('android') > -1 ? true : false;
-        POP.ios = ( POP.ua.indexOf('iphone') > -1 || POP.ua.indexOf('ipad') > -1  ) ? true : false;
-
-        // set up our wave effect
-        // basically, a series of overlapping circles
-        // across the top of screen
-        POP.wave = {
-            x: -25, // x coord of first circle
-            y: -40, // y coord of first circle
-            r: 50, // circle radius
-            time: 0, // we'll use this in calculating the sine wave
+          // set up our wave effect
+          // basically, a series of overlapping circles
+          // across the top of screen
+          POP.wave = {
+              x: -25, // x coord of first circle
+              y: -40, // y coord of first circle
+              r: 50, // circle radius
+              time: 0, // we'll use this in calculating the sine wave
             offset: 0 // this will be the sine wave offset
         }; 
         // calculate how many circles we need to 
