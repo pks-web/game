@@ -36,7 +36,7 @@ window.requestAnimFrame = (function(){
           window.oRequestAnimationFrame      || 
           window.msRequestAnimationFrame     || 
           function( callback ){
-            window.setTimeout(callback, 1000 / 60);
+            window.setTimeout(callback, 1000 / 40);
           };
 })();
 
@@ -46,7 +46,7 @@ var POP = {
     // set up some inital values
     WIDTH: 210, 
     
-    HEIGHT: 470, 
+    HEIGHT: 450, 
     scale:  1,
     // the position of the canvas
     // in relation to the screen
