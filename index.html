@@ -1,35 +1,32 @@
-<!DOCTYPE HTML>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1",
-    user-scalable=yes,maximum-scale=1, user-scalable=0" />
-<meta name="apple-mobile-web-app-capable" content="yes" />
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1" user-scalable="0&quot;">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <style type="text/css">
 
-<style type="text/css">
-
-body {
+  body {
   background-image: url('bg.png');
   background-repeat: repeat;
   background-attachment: fixed;
   background-size: cover;
-}
+  }
 
-canvas { display: block; margin:0 auto; background: #ffffff; }
-</style>
-
-
-
+  canvas { display: block; margin:0 auto; background: #ffffff; }
+  </style>
+  <title></title>
 </head>
 <body>
-<hr>
-<embed src="melodyloops-preview-hard-gain-10m30s.mp3" autostart="true" loop="false" width="1" height="0">
-<canvas></canvas>
-<script> 
+  <hr>
+  <embed src="melodyloops-preview-hard-gain-10m30s.mp3" autostart="true" loop="false" width="1" height="0">
+  <canvas></canvas>
+  <script>
 
-// http://paulirish.com/2011/requestanimationframe-for-smart-animating
-// shim layer with setTimeout fallback
-window.requestAnimFrame = (function(){
+
+  // http://paulirish.com/2011/requestanimationframe-for-smart-animating
+  // shim layer with setTimeout fallback
+  window.requestAnimFrame = (function(){
   return  window.requestAnimationFrame       || 
           window.webkitRequestAnimationFrame || 
           window.mozRequestAnimationFrame    || 
@@ -38,10 +35,10 @@ window.requestAnimFrame = (function(){
           function( callback ){
             window.setTimeout(callback, 1000 / 40);
           };
-})();
+  })();
 
-// namespace our game
-var POP = {
+  // namespace our game
+  var POP = {
 
     // set up some inital values
     WIDTH: 210, 
@@ -189,7 +186,7 @@ var POP = {
         var i,
             checkCollision = false; // we only need to check for a collision
                                 // if the user tapped on this game tick
- 
+
 
         // decrease our nextBubble counter
         POP.nextBubble -= 1;
@@ -306,10 +303,10 @@ var POP = {
     }
 
 
-};
+  };
 
-// checks if two entties are touching
-POP.collides = function(a, b) {
+  // checks if two entties are touching
+  POP.collides = function(a, b) {
 
         var distance_squared = ( ((a.x - b.x) * (a.x - b.x)) + 
                                 ((a.y - b.y) * (a.y - b.y)));
@@ -321,12 +318,12 @@ POP.collides = function(a, b) {
         } else {
             return false;
         }
-};
+  };
 
 
-// abstracts various canvas operations into
-// standalone functions
-POP.Draw = {
+  // abstracts various canvas operations into
+  // standalone functions
+  POP.Draw = {
 
     clear: function() {
         POP.ctx.clearRect(0, 0, POP.WIDTH, POP.HEIGHT);
@@ -353,11 +350,11 @@ POP.Draw = {
         POP.ctx.fillText(string, x, y);
     }
 
-};
+  };
 
 
 
-POP.Input = {
+  POP.Input = {
 
     x: 0,
     y: 0,
@@ -370,9 +367,9 @@ POP.Input = {
 
     }
 
-};
+  };
 
-POP.Touch = function(x, y) {
+  POP.Touch = function(x, y) {
 
     this.type = 'touch';    // we'll need this later
     this.x = x;             // the x coordinate
@@ -394,14 +391,14 @@ POP.Touch = function(x, y) {
         POP.Draw.circle(this.x, this.y, this.r, 'rgba(600,0,0,'+this.opacity+')');
     };
 
-};
+  };
 
-POP.Bubble = function() {
+  POP.Bubble = function() {
 
     this.type = 'bubble';
     this.r = (Math.random() * 20) + 10;
     this.speed = (Math.random() * 3) + 1;
- 
+
     this.x = (Math.random() * (POP.WIDTH) - this.r);
     this.y = POP.HEIGHT + (Math.random() * 100) + 100;
 
@@ -437,9 +434,9 @@ POP.Bubble = function() {
         POP.Draw.circle(this.x, this.y, this.r, 'rgba(200,200,150,1)');
     };
 
-};
+  };
 
-POP.Particle = function(x, y,r, col) {
+  POP.Particle = function(x, y,r, col) {
 
     this.x = x;
     this.y = y;
@@ -487,14 +484,13 @@ POP.Particle = function(x, y,r, col) {
         POP.Draw.circle(this.x, this.y, this.r, this.col);
     };
 
-};
+  };
 
-window.addEventListener('load', POP.init, false);
-window.addEventListener('resize', POP.resize, false);
+  window.addEventListener('load', POP.init, false);
+  window.addEventListener('resize', POP.resize, false);
 
-</script>
-<hr>
-<u><h4>PKS^GAMES<h4></u>
-
+  </script>
+  <hr>
+  <h4><u>PKS^GAMES</u></h4>
 </body>
 </html>
